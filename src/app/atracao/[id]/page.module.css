@@ -1,0 +1,55 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 64px;
+    width: 100%;
+    max-width: 1200px;
+    gap: 16px;
+}
+
+.hero {
+    height: 250px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    position: relative;
+    margin-bottom: 64px;
+}
+
+.hero .info {
+    z-index: 2;
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.hero .reviews {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--white);
+    border-radius: 20px;
+    height: 40px;
+    padding: 0 20px;
+    border: 2px solid var(--white);
+}
+
+.hero .reviews svg {
+    color: yellow;
+}
+
+.main button {
+    width: 100%
+}
+
+.main a {
+    align-self: center;
+}

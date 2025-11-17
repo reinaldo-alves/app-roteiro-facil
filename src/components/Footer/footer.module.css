@@ -1,0 +1,37 @@
+.footer {
+  width: 100%;
+  background-color: var(--secondary);
+}
+
+.footerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0;
+  margin: 0 2%;
+}
+
+.footer .links {
+  display: flex;
+  gap: 36px;
+}
+
+.footer a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer img {
+  flex-shrink: 0;
+}
+
+.footer p {
+  font-size: 12px;
+}
+
+.footer p a {
+  display: inline;
+  text-decoration: underline;
+}

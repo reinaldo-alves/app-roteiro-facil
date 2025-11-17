@@ -1,0 +1,26 @@
+.container {
+  height: 40px;
+  border-radius: 20px;
+  background-color: var(--white);
+  border: 1px solid var(--primary);
+  min-width: 200px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 20px;
+}
+
+.container svg {
+  color: var(--secondary);
+}
+
+.container input {
+  border: 0;
+  outline: 0;
+  height: 100%;
+  font-size: 14px;
+  color: var(--text);
+  width: calc(100% - 40px);
+  background-color: transparent;
+}
