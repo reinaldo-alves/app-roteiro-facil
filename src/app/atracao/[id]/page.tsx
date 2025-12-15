@@ -1,9 +1,6 @@
-import Link from "next/link";
 import styles from "./page.module.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { IconInput } from "@/components/IconInput"
-import { Button } from "@/components/Button";
 import { attractions } from "@/app/atractions";
 import { Mask } from "@/components/Mask";
 import { FaStar } from "react-icons/fa";

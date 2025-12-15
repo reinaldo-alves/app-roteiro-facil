@@ -14,7 +14,7 @@ export default function Home() {
       <main className={styles.main}>
         <section className={styles.hero}>
           <h1>Monte seu próprio roteiro de viagem de forma rápida e fácil</h1>
-          <Button type="primary"><FaRoute />Criar novo roteiro</Button>
+          <Button type="primary" route="/novo-roteiro"><FaRoute />Criar novo roteiro</Button>
         </section>
         <section className={styles.places}>
           <header>

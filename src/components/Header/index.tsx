@@ -2,6 +2,7 @@ import Link from 'next/link'
 import styles from './header.module.css'
 import { FaSearch } from 'react-icons/fa'
 import { IconInput } from '../IconInput'
+import { Button } from '../Button'
 
 export function Header({removeInput, removeUser}: {removeInput?: boolean, removeUser?: boolean}) {
     return (
@@ -16,7 +17,8 @@ export function Header({removeInput, removeUser}: {removeInput?: boolean, remove
                     </IconInput>
                 </div>
                 <div className={styles.userContainer}>
-                    <Link href={removeUser? "/" : "/login"}>{removeUser? 'Página Inicial' : 'Login'}</Link>
+                    <Button type='secondary' route={removeUser? "/" : "/login"}>{removeUser? 'Página Inicial' : 'Login'}</Button>
+                    {/* <Link href={removeUser? "/" : "/login"}>{removeUser? 'Página Inicial' : 'Login'}</Link> */}
                 </div>
             </div>
         </header>

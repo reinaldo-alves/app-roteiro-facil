@@ -1,0 +1,161 @@
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputContainer label {
+  font-size: 16px;
+  padding-left: 20px;
+}
+
+.inputContainer button {
+  width: 230px;
+}
+
+.inputDates {
+  display: flex;
+  gap: 16px;
+}
+
+.inputCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 20px;
+}
+
+.filterContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.filterContainer .inputContainer {
+  width: 100%;
+}
+
+.navigation {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.attractionsContainer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.droppableContainer {
+  width: 100%;
+  padding: 20px;
+  border: 1px dotted var(--primary);
+  overflow-y: auto;
+  background-color: var(--white);
+  border-radius: 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.135216);
+  height: 800px;
+}
+
+.draggableCard {
+  padding: 10px;
+  margin: 8px 0;
+  background-color: var(--tertiary);
+  border-radius: 5px;
+  cursor: grab;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.draggableCard img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.draggableCard p {
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.draggableCard p svg {
+  color: yellow;
+  margin-right: 5px;
+}
+
+.cityGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.gridAttractionContainer {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  gap: 10px;
+}
+
+.schedule {
+  width: 100%;
+  position: relative;
+  display: flex;
+  gap: 10px;
+}
+
+.hourLabel {
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+  gap: 60px
+}
+
+.grid {
+  width: 100%;
+}
+
+.grid h4 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.grid .column {
+  border: 1px dotted var(--primary);
+  position: relative;
+  border-radius: 4px;
+}
+
+.cell {
+  height: 15px;
+  border-bottom: 1px dotted var(--tertiary);
+}
+
+.event {
+  position: absolute;
+  background-color: #6c5ce7;
+  color: white;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: grab;
+}
+
+.event button {
+  height: 18px;
+  width: 18px;
+  border: 0;
+  outline: 0;
+  font-weight: bold;
+  border-radius: 4px;
+  background-color: var(--tertiary);
+  bottom: 4px;
+  right: 4px;
+  position: absolute;
+  display: none;
+  cursor: pointer; 
+}
+
+.event:hover button {
+  display: block;
+}

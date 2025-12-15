@@ -1,0 +1,22 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 64px;
+    width: 100%;
+    max-width: 1200px;
+    gap: 16px;
+}
+
+.main h1 {
+    margin: 48px 0;
+    text-align: center;
+}
+
+.main form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    border-top: 1px solid var(--primary);
+    padding-top: 10px;
+    margin-bottom: 32px;
+}

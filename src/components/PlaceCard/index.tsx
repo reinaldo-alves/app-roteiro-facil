@@ -1,10 +1,13 @@
+'use client'
+
 import styles from './placecard.module.css'
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import { FaStar } from 'react-icons/fa'
 
 export function PlaceCard({image, title, city, score, id} : {image: string, title: string, city: string, score: number, id: number}) {
+    const router = useRouter();    
     return (
-        <Link href={`/atracao/${id}`} className={styles.card}>
+        <div onClick={() => router.push(`/atracao/${id}`)} className={styles.card}>
             <div style={{backgroundImage: `url(${image})`}} className={styles.image}></div>
             <div className={styles.details}>
                 <h3>{title}</h3>
@@ -14,6 +17,6 @@ export function PlaceCard({image, title, city, score, id} : {image: string, titl
                     {score}
                 </div>
             </div>
-        </Link>
+        </div>
     )
 }
