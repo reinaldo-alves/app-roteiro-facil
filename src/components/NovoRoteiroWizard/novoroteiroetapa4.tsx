@@ -2,15 +2,16 @@
 
 import styles from "./novoroteirowizard.module.css";
 import { useEffect, useRef, useState } from "react";
-import { DndContext, DragEndEvent, useDraggable, DragOverlay, DragStartEvent, useSensor, useSensors, PointerSensor, closestCenter, useDroppable, rectIntersection, closestCorners } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, useDraggable, DragOverlay, DragStartEvent, useSensor, useSensors, PointerSensor, useDroppable, rectIntersection } from "@dnd-kit/core";
 import { FaStar } from "react-icons/fa";
 import { IAttraction } from "@/types/types";
 import { Rnd } from "react-rnd";
-import { headers } from "next/headers";
+import { count } from "console";
 
 type Event = {
     id: string;
     title: string;
+    image: string;
     start: number | null;
     length: number;
     day: number | null;
@@ -19,16 +20,25 @@ type Event = {
 const CELL_HEIGHT = 15;
 const TOTAL_DIVISIONS = 96;
 const DEFAULT_HEIGHT = 4;
-const DAYS = 4;
+const WEEKDAY = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 
-export default function NovoRoteiroEtapa4({attractions}: {attractions: Array<IAttraction>}) {
+export default function NovoRoteiroEtapa4({attractions, startDate, endDate}: {attractions: Array<IAttraction>, startDate: string, endDate: string}) {
     const initialEvents: Array<Event> = attractions.map(attraction => (
-        {id: attraction.id.toString(), title: attraction.name, start: null, length: DEFAULT_HEIGHT, day: null}
+        {id: attraction.id.toString(), title: attraction.name, image: attraction.images, start: null, length: DEFAULT_HEIGHT, day: null}
     ))
+
+    const dayArray = () => {
+        const start = new Date(startDate.split('T')[0] + 'T00:00:00');
+        const end = new Date(endDate.split('T')[0] + 'T00:00:00');
+        const days = [];
+        for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+            days.push(new Date(d));
+        }
+        return days;
+    };
 
     const [events, setEvents] = useState<Array<Event>>(initialEvents)
     const [activeId, setActiveId] = useState<string | null>(null);
-    const [isResizing, setIsResizing] = useState(false);
 
     const sensors = useSensors(
         useSensor(PointerSensor, {activationConstraint: {distance: 4}})
@@ -118,8 +128,8 @@ export default function NovoRoteiroEtapa4({attractions}: {attractions: Array<IAt
         );
     }
 
-    function DroppableColumn({ day, children, innerRefSetter }: { day: number, children?: React.ReactNode, innerRefSetter: (ref: HTMLDivElement | null) => void}) {
-        const id = `col-${day}`
+    function DroppableColumn({ date, children, innerRefSetter }: { date: Date, children?: React.ReactNode, innerRefSetter: (ref: HTMLDivElement | null) => void}) {
+        const id = `col-${date.getDate()}`
         const { setNodeRef } = useDroppable({ id });
         const combinedRef = (el: HTMLDivElement | null) => {
             setNodeRef(el);
@@ -127,7 +137,8 @@ export default function NovoRoteiroEtapa4({attractions}: {attractions: Array<IAt
         };
         return (
             <div className={styles.grid}>
-                <h4>Dia {day + 1}</h4>
+                <h4>Dia {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</h4>
+                <h5>({WEEKDAY[date.getDay()]})</h5>
                 <div className={styles.column} id={id} data-droppable-id={id} ref={combinedRef}>
                     {[...Array(TOTAL_DIVISIONS)].map((_, i) => (
                         <div style={{borderWidth: i % 4 === 3 ? '1px' : '0', height: CELL_HEIGHT}} key={i} className={styles.cell}></div>
@@ -164,7 +175,6 @@ export default function NovoRoteiroEtapa4({attractions}: {attractions: Array<IAt
     function ScheduledEvent({ item, day }: { item: Event, day: number }) {
         
         function handleResize(event: any, dir: any, ref: HTMLElement) {
-            setIsResizing(false);
             const newLength = Math.max(1, Math.round(ref.offsetHeight / CELL_HEIGHT));
             updateEvent({...item, length: newLength} as Event);
         }
@@ -182,7 +192,7 @@ export default function NovoRoteiroEtapa4({attractions}: {attractions: Array<IAt
                 }}
                 onResizeStop={handleResize}
                 minHeight={CELL_HEIGHT}
-                style={{border: '1px solid #999', borderRadius: 4, zIndex: 5}}
+                style={{border: '1px solid #999', borderRadius: 4, zIndex: 5, backgroundImage: `url(${item.image})`}}
                 className={styles.event}
             >
                 {item.title} - {formatSlotToTime(item.start!)}
@@ -205,9 +215,9 @@ export default function NovoRoteiroEtapa4({attractions}: {attractions: Array<IAt
                                 return null;
                             })}
                         </div>
-                        {[...Array(DAYS)].map((_, day) => (
-                            <DroppableColumn key={day} day={day} innerRefSetter={(el) => {columnsRef.current[day] = el}}>
-                                {renderColumnEvents(day)}
+                        {dayArray().map((date, index) => (
+                            <DroppableColumn key={index} date={date} innerRefSetter={(el) => {columnsRef.current[date.getDate()] = el}}>
+                                {renderColumnEvents(date.getDate())}
                             </DroppableColumn>
                         ))}
                     </div>

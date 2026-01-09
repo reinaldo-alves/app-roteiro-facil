@@ -17,6 +17,8 @@ export default function NovoRoteiroWizard() {
 
     const [cities, setCities] = useState<Array<string | undefined>>([undefined]);
     const [attractions, setAttractions] = useState([] as IAttraction[]);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     if (etapa < 1 || etapa > 4 || isNaN(etapa) || !Number.isInteger(etapa)) {
         notFound();
@@ -24,13 +26,13 @@ export default function NovoRoteiroWizard() {
     
     return (
         <>
-            {etapa === 1 && <NovoRoteiroEtapa1 cities={cities} setCities={setCities} />}
+            {etapa === 1 && <NovoRoteiroEtapa1 cities={cities} setCities={setCities} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}/>}
             {etapa === 2 && <NovoRoteiroEtapa2 selected={attractions} setSelected={setAttractions} />}
             {etapa === 3 && <NovoRoteiroEtapa3 cities={cities} />}
-            {etapa === 4 && <NovoRoteiroEtapa4 attractions={attractions} />}
+            {etapa === 4 && <NovoRoteiroEtapa4 attractions={attractions} startDate={startDate} endDate={endDate} />}
             <div className={styles.navigation}>
                 {etapa > 1 ? <Button type="primary" route={`?etapa=${etapa - 1}`}><FaArrowLeft/>Voltar</Button> : <div></div>}
-                {etapa < 4 ? <Button type="primary" route={`?etapa=${etapa + 1}`}>Próximo<FaArrowRight/></Button>: <div></div>}
+                {etapa < 4 ? <Button type="primary" route={`?etapa=${etapa + 1}`}>Próximo<FaArrowRight/></Button>: <Button type="primary">Concluir</Button>}
             </div>
         </>
     )
