@@ -6,7 +6,7 @@ import { DndContext, DragEndEvent, useDraggable, DragOverlay, DragStartEvent, us
 import { FaStar } from "react-icons/fa";
 import { IAttraction } from "@/types/types";
 import { Rnd } from "react-rnd";
-import { count } from "console";
+import Image from "next/image";
 
 type Event = {
     id: string;
@@ -15,6 +15,13 @@ type Event = {
     start: number | null;
     length: number;
     day: number | null;
+}
+
+declare global {
+    interface Window {
+      __lastPointerX: number;
+      __lastPointerY: number;
+    }
 }
 
 const CELL_HEIGHT = 15;
@@ -76,7 +83,7 @@ export default function NovoRoteiroEtapa4({attractions, startDate, endDate}: {at
         const col = columnsRef.current[colIndex];
         if (!col) return;
         const rect = col.getBoundingClientRect();
-        const pointerY = (window as any).__lastPointerY as number;
+        const pointerY = window.__lastPointerY;
         const slot = Math.max(0, Math.min(TOTAL_DIVISIONS - 1, Math.floor((pointerY - rect.top) / CELL_HEIGHT)));
         setEvents(prev => 
             prev.map(item => 
@@ -87,22 +94,22 @@ export default function NovoRoteiroEtapa4({attractions, startDate, endDate}: {at
 
     useEffect(() => {
         function onPointerMove(event: PointerEvent) {
-            (window as any).__lastPointerY = event.clientY;
-            (window as any).__lastPointerX = event.clientX;
+            window.__lastPointerY = event.clientY;
+            window.__lastPointerX = event.clientX;
         }
         window.addEventListener('pointermove', onPointerMove);
         return () => window.removeEventListener('pointermove', onPointerMove);
     }, [])
 
-    function onMove(id: string, y: number) {
-        const newStart = Math.max(0, Math.round(y / CELL_HEIGHT));
-        updateEvent({...(getEventById(id) as Event), start: newStart} as Event);
-    }
+    // function onMove(id: string, y: number) {
+    //     const newStart = Math.max(0, Math.round(y / CELL_HEIGHT));
+    //     updateEvent({...(getEventById(id) as Event), start: newStart} as Event);
+    // }
 
-    function onResize(id: string, heigth: number) {
-        const newLength = Math.max(1, Math.round(heigth / CELL_HEIGHT));
-        updateEvent({...(getEventById(id) as Event), length: newLength} as Event);
-    }
+    // function onResize(id: string, heigth: number) {
+    //     const newLength = Math.max(1, Math.round(heigth / CELL_HEIGHT));
+    //     updateEvent({...(getEventById(id) as Event), length: newLength} as Event);
+    // }
 
     function renderDepotItems() {
         return events.filter(event => event.day === null).map(item => (
@@ -163,7 +170,7 @@ export default function NovoRoteiroEtapa4({attractions, startDate, endDate}: {at
 
         return (
             <div ref={setNodeRef} className={styles.draggableCard} style={style} {...listeners} {...attributes}>
-                <img src={attraction.images} alt={attraction.name} />
+                <Image src={attraction.images} alt={attraction.name} />
                 <div className={styles.cardInfo}>
                     <h4>{ attraction.name }</h4>
                     <p><FaStar />{ attraction.score }</p>
@@ -174,9 +181,9 @@ export default function NovoRoteiroEtapa4({attractions, startDate, endDate}: {at
 
     function ScheduledEvent({ item, day }: { item: Event, day: number }) {
         
-        function handleResize(event: any, dir: any, ref: HTMLElement) {
+        function handleResize(_event: unknown, _dir: unknown, ref: HTMLElement) {
             const newLength = Math.max(1, Math.round(ref.offsetHeight / CELL_HEIGHT));
-            updateEvent({...item, length: newLength} as Event);
+            updateEvent({...item, length: newLength});
         }
 
         return (

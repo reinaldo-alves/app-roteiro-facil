@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Nunito, Roboto_Mono } from "next/font/google";
 import "./globals.css";
+import { UserStore } from "./contexts/UserContext";
 
 const inter = Inter({
   variable: "--font-title",
@@ -30,7 +31,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={`${inter.variable} ${nunito.variable} ${robotoMono.variable}`}>
-        {children}
+        <UserStore>
+          {children}
+        </UserStore>
       </body>
     </html>
   );

@@ -9,3 +9,10 @@ export type IAttraction = {
   category: string;
   score: number;
 };
+
+export type IUser = {
+  id: number;
+  name: string;
+  email: string;
+  reviews: Array<number>;
+};

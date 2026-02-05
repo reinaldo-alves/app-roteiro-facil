@@ -7,6 +7,7 @@ import { DndContext, DragEndEvent, useDraggable, useDroppable, DragOverlay, Drag
 import { FaCity, FaStar, FaThList } from "react-icons/fa";
 import { IconSelect } from "../IconSelect";
 import { IAttraction } from "@/types/types";
+import Image from "next/image";
 
 export default function NovoRoteiroEtapa2({selected, setSelected}: {selected: Array<IAttraction>, setSelected: Dispatch<SetStateAction<Array<IAttraction>>>}) {
     const [available, setAvailable] = useState([...attractions.filter(attraction => !selected.find(selectedAttraction => selectedAttraction.id === attraction.id))] as IAttraction[]);
@@ -16,17 +17,18 @@ export default function NovoRoteiroEtapa2({selected, setSelected}: {selected: Ar
         setActiveId(null);
         const {over, active} = event;
         if (!over) return;
+        const draggedId = Number(active.id);
         if (over.id === 'selected') {
-            const draggedItem = available.find(item => item.id === active.id);
-            if (draggedItem && !selected.find(item => item.id === active.id)) {
-                setAvailable(prev => prev.filter(item => item.id !== active.id));
+            const draggedItem = available.find(item => item.id === draggedId);
+            if (draggedItem && !selected.find(item => item.id === draggedId)) {
+                setAvailable(prev => prev.filter(item => item.id !== draggedId));
                 setSelected(prev => [...prev, draggedItem]);
             }
         }
         else if (over.id === 'available') {
-            const draggedItem = selected.find(item => item.id === active.id);
-            if (draggedItem && !available.find(item => item.id === active.id)) {
-                setSelected(prev => prev.filter(item => item.id !== active.id));
+            const draggedItem = selected.find(item => item.id === draggedId);
+            if (draggedItem && !available.find(item => item.id === draggedId)) {
+                setSelected(prev => prev.filter(item => item.id !== draggedId));
                 setAvailable(prev => [...prev, draggedItem]);
             }
         }
@@ -36,13 +38,13 @@ export default function NovoRoteiroEtapa2({selected, setSelected}: {selected: Ar
         setActiveId(String(event.active.id));
     }
 
-    function DroppableList({ id, title, items }: { id: string; title: string; items: any[] }) {
+    function DroppableList({ id, title, items }: { id: string; title: string; items: IAttraction[] }) {
         const { setNodeRef } = useDroppable({ id });
         return (
             <div ref={setNodeRef} className={styles.droppableContainer}>
                 <h3>{title}</h3>
-                {items.map((item, index) => (
-                    <DraggableItem key={index} id={item.id} />
+                {items.map((item) => (
+                    <DraggableItem key={item.id} id={item.id.toString()} />
                 ))}
             </div>
         );
@@ -62,7 +64,7 @@ export default function NovoRoteiroEtapa2({selected, setSelected}: {selected: Ar
 
         return (
             <div ref={setNodeRef} className={styles.draggableCard} style={style} {...listeners} {...attributes}>
-                <img src={attraction.images} alt={attraction.name} />
+                <Image src={attraction.images} alt={attraction.name} />
                 <div className={styles.cardInfo}>
                     <h4>{ attraction.name }</h4>
                     <p><FaStar />{ attraction.score }</p>
